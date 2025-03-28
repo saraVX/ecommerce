@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librairie Élégante</title>
+    <style>
+        /* Styles de base */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fond animé coloré */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3498db, #9b59b6, #e74c3c, #f1c40f, #2ecc71);
+            background-size: 400% 400%;
+            animation: moveBackground 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Effet de défilement fluide */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        header {
+            background-color: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(52, 73, 94, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 80px;
+            z-index: 10;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #2980b9;
+            border-radius: 5px;
+            transform: translateY(-3px);
+        }
+
+        /* Section Accueil */
+        .home-section {
+            padding: 100px 20px;
+            text-align: center;
+            background: rgba(52, 152, 219, 0.8);
+            color: white;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-section h2 {
+            font-size: 36px;
+            margin: 20px 0;
+        }
+
+        .home-section p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Section Produits */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .product {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            width: 220px;
+            padding: 15px;
+            margin: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product h3 {
+            font-size: 22px;
+            color: #2980b9;
+            margin: 15px 0;
+        }
+
+        .product p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        .product .more {
+            color: #3498db;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product p.expanded {
+            max-height: none;
+        }
+
+        .product button {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .product button:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Panier */
+        .cart {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(41, 128, 185, 0.9);
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .cart:hover {
+            background-color: #1abc9c;
+            transform: scale(1.05);
+        }
+
+        #cartDetails {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .cartItem {
+            margin: 10px 0;
+        }
+
+        .cartItem span {
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Barre de recherche */
+        .search-bar {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 300px;
+            border: 2px solid #2980b9;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: #1abc9c;
+        }
+
+        /* Filtres */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px;
+            gap: 10px;
+        }
+
+        .filters button {
+            padding: 10px 20px;
+            background-color: rgba(41, 128, 185, 0.9);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .filters button:hover {
+            background-color: #1abc9c;
+            transform: scale(1.05);
+        }
+
+        .filters button.active {
+            background-color: #1abc9c;
+        }
+
+        /* Notation */
+        .rating {
+            color: #f1c40f;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        /* Modal pour la description */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .modal-content h3 {
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .close-modal:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Fond animé -->
+<div class="animated-background"></div>
+
+<!-- Header et Navigation -->
+<header>
+    Librairie Élégante
+</header>
+
+<nav>
+    <a href="#homePage">Accueil</a>
+    <a href="#productsPage">Nos Livres</a>
+</nav>
+
+<!-- Barre de recherche -->
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Rechercher un livre..." oninput="filterProducts()">
+</div>
+
+<!-- Filtres -->
+<div class="filters">
+    <button onclick="filterByGenre('all')" class="active">Tous</button>
+    <button onclick="filterByGenre('romance')">Romance</button>
+    <button onclick="filterByGenre('action')">Action</button>
+    <button onclick="filterByGenre('sci-fi')">Science-Fiction</button>
+    <button onclick="filterByGenre('thriller')">Thriller</button>
+    <button onclick="filterByGenre('poesie')">Poésie</button>
+</div>
+
+<!-- Section Accueil -->
+<div id="homePage" class="home-section">
+    <h2>Bienvenue dans notre Librairie Élégante</h2>
+    <p>Découvrez une sélection raffinée de livres allant de la fiction classique aux dernières nouveautés, soigneusement choisies pour satisfaire votre soif de lecture. Explorez, lisez et laissez-vous séduire par nos titres incontournables.</p>
+</div>
+
+<!-- Section Produits -->
+<div id="productsPage" class="container">
+    <!-- Poésie -->
+    <div class="product" data-genre="poesie">
+        <img src="https://via.placeholder.com/200x300?text=Les+Fleurs+du+Mal" alt="Les Fleurs du Mal">
+        <h3>Les Fleurs du Mal</h3>
+        <p id="desc1">Un recueil de poèmes de Charles Baudelaire...</p>
+        <button class="btn" onclick="showDescription('Les Fleurs du Mal', 'Un recueil de poèmes de Charles Baudelaire qui explore les thèmes de la beauté, de la mort et de la mélancolie.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('Les Fleurs du Mal', 15.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="poesie">
+        <img src="https://via.placeholder.com/200x300?text=Le+Petit+Prince" alt="Le Petit Prince">
+        <h3>Le Petit Prince</h3>
+        <p id="desc2">Un conte poétique et philosophique d'Antoine de Saint-Exupéry...</p>
+        <button class="btn" onclick="showDescription('Le Petit Prince', 'Un conte poétique et philosophique qui raconte l\'histoire d\'un petit prince voyageant de planète en planète.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Le Petit Prince', 12.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="poesie">
+        <img src="image/poesie.jpg" alt="La Poésie">
+        <h3>La Poésie</h3>
+        <p id="desc3">Une anthologie de poèmes classiques...</p>
+        <button class="btn" onclick="showDescription('La Poésie', 'Une anthologie de poèmes classiques qui célèbre la beauté de la langue française.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('La Poésie', 10.99)">Ajouter au panier</button>
+    </div>
+
+    <!-- Science-Fiction -->
+    <div class="product" data-genre="sci-fi">
+        <img src="image/Dune.jpg" alt="Dune">
+        <h3>Dune</h3>
+        <p id="desc4">Un classique de la science-fiction par Frank Herbert...</p>
+        <button class="btn" onclick="showDescription('Dune', 'Un classique de la science-fiction qui se déroule dans un univers lointain où l\'épice est la ressource la plus précieuse.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Dune', 19.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="sci-fi">
+        <img src="image/Fahren.jpg" alt="Fahrenheit 451">
+        <h3>Fahrenheit 451</h3>
+        <p id="desc5">Un roman dystopique de Ray Bradbury...</p>
+        <button class="btn" onclick="showDescription('Fahrenheit 451', 'Un roman dystopique qui explore un futur où les livres sont interdits et brûlés.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('Fahrenheit 451', 14.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="sci-fi">
+        <img src=".image/Hyperion.jpg" alt="Hyperion">
+        <h3>Hyperion</h3>
+        <p id="desc6">Un chef-d'œuvre de science-fiction par Dan Simmons...</p>
+        <button class="btn" onclick="showDescription('Hyperion', 'Un chef-d\'œuvre de science-fiction qui suit les histoires entrelacées de plusieurs pèlerins.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Hyperion', 22.99)">Ajouter au panier</button>
+    </div>
+
+    <!-- Thriller -->
+    <div class="product" data-genre="thriller">
+        <img src="./image/island.jpg" alt="Shutter Island">
+        <h3>Shutter Island</h3>
+        <p id="desc7">Un thriller psychologique de Dennis Lehane...</p>
+        <button class="btn" onclick="showDescription('Shutter Island', 'Un thriller psychologique qui suit un marshal enquêtant sur la disparition d\'une patiente dans un hôpital psychiatrique.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('Shutter Island', 16.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="thriller">
+        <img src=".image/silence.jpg" alt="Le Silence des Agneaux">
+        <h3>Le Silence des Agneaux</h3>
+        <p id="desc8">Un thriller captivant de Thomas Harris...</p>
+        <button class="btn" onclick="showDescription('Le Silence des Agneaux', 'Un thriller captivant qui suit l\'enquête d\'une jeune agent du FBI sur un tueur en série.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Le Silence des Agneaux', 18.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="thriller">
+        <img src="image/fille.jpg" alt="La Fille du Train">
+        <h3>La Fille du Train</h3>
+        <p id="desc9">Un thriller psychologique de Paula Hawkins...</p>
+        <button class="btn" onclick="showDescription('La Fille du Train', 'Un thriller psychologique qui suit une femme obsédée par un couple qu\'elle observe depuis un train.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('La Fille du Train', 15.99)">Ajouter au panier</button>
+    </div>
+
+    <!-- Romance -->
+    <div class="product" data-genre="romance">
+        <img src="image/Orgueil.jpg" alt="Orgueil et Préjugés">
+        <h3>Orgueil et Préjugés</h3>
+        <p id="desc10">Un classique de la romance par Jane Austen...</p>
+        <button class="btn" onclick="showDescription('Orgueil et Préjugés', 'Un classique de la romance qui explore les relations complexes entre Elizabeth Bennet et Mr. Darcy.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Orgueil et Préjugés', 12.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="romance">
+        <img src="image/selecao.jpg" alt="La Seleçao">
+        <h3>La Seleçao</h3>
+        <p id="desc11">Une romance moderne de Kiera Cass...</p>
+        <button class="btn" onclick="showDescription('La Seleçao', 'Une romance moderne qui suit une jeune femme choisie pour participer à une compétition pour le cœur d\'un prince.')">Voir la description</button>
+        <div class="rating">★★★★☆</div>
+        <button class="btn" onclick="addToCart('La Seleçao', 14.99)">Ajouter au panier</button>
+    </div>
+    <div class="product" data-genre="romance">
+        <img src="image/apres.jpg" alt="Après Toi">
+        <h3>Après Toi</h3>
+        <p id="desc12">Une romance émouvante de Jojo Moyes...</p>
+        <button class="btn" onclick="showDescription('Après Toi', 'Une romance émouvante qui explore la vie d\'une femme après la perte de son amour.')">Voir la description</button>
+        <div class="rating">★★★★★</div>
+        <button class="btn" onclick="addToCart('Après Toi', 16.99)">Ajouter au panier</button>
+    </div>
+</div>
+
+<!-- Panier -->
+<div class="cart" onclick="toggleCartDetails()">
+    Panier (<span id="cartCount">0</span> articles) - Total: <span id="cartTotal">0.00 €</span>
+</div>
+
+<div id="cartDetails">
+    <h3>Panier</h3>
+    <div id="cartItems"></div>
+    <button class="btn" onclick="clearCart()">Vider le panier</button>
+</div>
+
+<!-- Modal pour la description -->
+<div id="descriptionModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <button class="close-modal" onclick="closeDescription()">Fermer</button>
+    </div>
+</div>
+
+<script>
+    let cart = [];
+    let cartTotal = 0;
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        cartTotal += price;
+        updateCart();
+    }
+
+    function updateCart() {
+        document.getElementById('cartCount').innerText = cart.length;
+        document.getElementById('cartTotal').innerText = cartTotal.toFixed(2) + ' €';
+        let cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = '';
+        cart.forEach(item => {
+            let cartItem = document.createElement('div');
+            cartItem.className = 'cartItem';
+            cartItem.innerHTML = `<span>${item.name}</span> - ${item.price.toFixed(2)} €`;
+            cartItems.appendChild(cartItem);
+        });
+    }
+
+    function toggleCartDetails() {
+        let cartDetails = document.getElementById('cartDetails');
+        cartDetails.style.display = cartDetails.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function clearCart() {
+        cart = [];
+        cartTotal = 0;
+        updateCart();
+    }
+
+    function filterProducts() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let products = document.querySelectorAll('.product');
+        products.forEach(product => {
+            let name = product.querySelector('h3').innerText.toLowerCase();
+            if (name.includes(input)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    function filterByGenre(genre) {
+        let products = document.querySelectorAll('.product');
+        products.forEach(product => {
+            if (genre === 'all' || product.getAttribute('data-genre') === genre) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+        let buttons = document.querySelectorAll('.filters button');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+        document.querySelector(`.filters button[onclick="filterByGenre('${genre}')"]`).classList.add('active');
+    }
+
+    function showDescription(title, description) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalDescription').innerText = description;
+        document.getElementById('descriptionModal').style.display = 'flex';
+    }
+
+    function closeDescription() {
+        document.getElementById('descriptionModal').style.display = 'none';
+    }
+</script>
+
+</html>
