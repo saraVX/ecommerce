@@ -46,15 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
  
     // Requête pour mettre à jour les données utilisateur
-    $sql = "UPDATE users SET name = :name, email = :email, dob = :dob, address = :address, phone = :phone WHERE id = :user_id";
+    $sql = "UPDATE users SET username = :username, email = :email WHERE id = :user_id";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':username', $name);
     $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':user_id', $userId);
     
    // Exécuter la requête
    if ($stmt->execute()) {
     // Message de succès si l'exécution est réussie
-    echo "Profil mis à jour avec succès.";
+    header("Location: profil.php");
     } else {
     // Message d'erreur si l'exécution échoue
     echo "Erreur lors de la mise à jour du profil.";
